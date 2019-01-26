@@ -23,8 +23,9 @@ steps:
 - task: CopyFiles@2
   inputs:
     sourceFolder: $(System.DefaultWorkingDirectory)/build
-    contents: '**\*'
+    contents: '**/*'
     targetFolder: $(Build.ArtifactStagingDirectory)
+  displayName: 'Copy files from $(System.DefaultWorkingDirectory)/build to $(Build.ArtifactStagingDirectory)'
 
 - task: PublishBuildArtifacts@1
   inputs:

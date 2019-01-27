@@ -1,0 +1,32 @@
+img {
+    object-fit: cover;
+    object-position: center;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+}
+
+a {
+    display: flex;
+}
+
+.cake-list-item {
+    width: 100%;
+    height: 200px;
+}
+
+.cake-name-panel {
+    opacity: 0;
+    background-color: rgba(0,0,0,0.5);
+    position: relative;
+    top: -66px;
+    height: 60px;
+    color: white;
+    overflow: hidden;
+    transition: opacity 0.5s;
+    padding: 4px;
+}
+
+.cake-list-item:hover .cake-name-panel {
+    opacity: 1;
+}

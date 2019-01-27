@@ -5,6 +5,7 @@ import CakeDetailInner from '../../components/cake-detail-inner/cake-detail-inne
 import { Cake } from '../../models';
 import { CakesAppState } from '../../reducers';
 import './cake-detail.scss';
+import { Columns, Column } from 'bloomer';
 
 export interface CakeDetailProps {
   match: any;
@@ -20,9 +21,13 @@ class CakeDetail extends Component<CakeDetailProps> {
   render() {
     const { cake, loading, error } = this.props;
 
-    return (<div>{loading ? <p>Loading...</p> :
-      (error ? <p>Cake not found</p> :
-        (cake ? <CakeDetailInner cake={cake}></CakeDetailInner> : ''))}</div>);
+    return (
+    <Columns>
+      <Column>{loading ? <p>Loading...</p> :
+        (error ? <p>Cake not found</p> :
+        (cake ? <CakeDetailInner cake={cake}></CakeDetailInner> : ''))}
+      </Column>
+    </Columns>);
   }
 }
 

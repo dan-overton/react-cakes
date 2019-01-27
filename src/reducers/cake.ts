@@ -25,11 +25,12 @@ export function cakeReducer(state: CakeState = initialCakeState, action: CakeAct
             return {
                 ...state,
                 loading: false,
-                cake: action.cake
+                cake: action.cake,
             }
         case CakeActionTypes.GET_CAKE_ERROR:
             return {
                 ...state,
+                cake: undefined,
                 loading: false,
                 error: action.error
             }

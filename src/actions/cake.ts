@@ -1,6 +1,7 @@
 import { Action, Dispatch } from "redux";
 import { Cake } from "../models";
 import CakeService from "../services/cake-service";
+import { cakeService } from "../services";
 
 export enum CakeActionTypes {
     GET_CAKE_START = 'GET_CAKE_START',
@@ -24,8 +25,6 @@ export interface ActionGetCakeError extends Action {
 }
 
 export type CakeActions = ActionGetCake | ActionGetCakeSuccess | ActionGetCakeError;
-
-const cakeService = new CakeService();
 
 const dispatchGetCake = (id: string): ActionGetCake => ({ type: CakeActionTypes.GET_CAKE_START, id});
 const dispatchGetCakeSuccess = (cake: Cake): ActionGetCakeSuccess => ({ type: CakeActionTypes.GET_CAKE_SUCCESS, cake});

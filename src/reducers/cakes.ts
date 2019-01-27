@@ -19,12 +19,14 @@ export function cakesReducer(state: CakesState = initialCakesState, action: Cake
                 ...state,
                 loading: true,
                 cakes: [],
+                error: undefined
             }
         case CakesActionTypes.GET_CAKES_SUCCESS:
             return {
                 ...state,
                 loading: false,
-                cakes: action.cakes
+                cakes: action.cakes,
+                error: undefined
             }
         case CakesActionTypes.GET_CAKES_ERROR:
             return {

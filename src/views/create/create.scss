@@ -1,4 +1,12 @@
 .validation-message {
-    height: 1em;
+    visibility: hidden;
     color: red;
+}
+
+.validation-message.validation-message-display {
+    visibility: visible;
+}
+
+.create-form {
+    padding: 8px;
 }

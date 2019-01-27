@@ -3,6 +3,7 @@ import React, { FunctionComponent } from 'react';
 import { Link } from 'react-router-dom';
 import { Cake } from '../../models';
 import CakeImage from '../cake-image/cake-image';
+import './cake-detail-inner.scss';
 
 export interface CakeDetailInnerProps {
     cake: Cake;
@@ -22,7 +23,7 @@ const CakeDetailInner: FunctionComponent<CakeDetailInnerProps> = (props) => {
             <Tile isSize={6} isVertical isParent>
                 <Tile isChild render={
                     () => (
-                        <CakeImage src={cake.imageUrl} />
+                        <div className="cake-detail-container has-text-centered"><CakeImage src={cake.imageUrl} /></div>
                     )
                 } />
             </Tile>

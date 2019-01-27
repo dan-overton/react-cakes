@@ -100,8 +100,8 @@ class Create extends Component<CreateProps, CreateState> {
     const { name, comment, imageUrl, yumFactor } = this.state.controls;
 
     return (
-      <Columns>
-        <Column isSize={{ mobile: 8, desktop: 4 }}>
+      <Columns className="create-form">
+        <Column isSize={{ mobile: 12, tablet: 6}}>
           <Breadcrumb>
             <ul>
               <BreadcrumbItem><Link to="/">Cakes</Link></BreadcrumbItem>
@@ -119,7 +119,7 @@ class Create extends Component<CreateProps, CreateState> {
               <Label>Name</Label>
               <Control>
                 <Input type="text" placeholder='The name of your cake' name="name" value={name.value} onChange={this.handleInputChange} />
-                <div className="validation-message">{name.touched && !name.valid ? <span>This field is required.</span> : ''}</div>
+                <div className={"validation-message" + (name.touched && !name.valid ? ' validation-message-display' : '')}><span>This field is required.</span></div>
               </Control>
             </Field>
 
@@ -127,7 +127,7 @@ class Create extends Component<CreateProps, CreateState> {
               <Label>Comment</Label>
               <Control>
                 <Input type="text" placeholder='What do you think of the cake?' name="comment" value={comment.value} onChange={this.handleInputChange} />
-                <div className="validation-message">{comment.touched && !comment.valid ? <span>This field is required.</span> : ''}</div>
+                <div className={"validation-message" + (comment.touched && !comment.valid ? ' validation-message-display' : '')}><span>This field is required.</span></div>
               </Control>
             </Field>
 
@@ -136,7 +136,7 @@ class Create extends Component<CreateProps, CreateState> {
               <Label>Image Url</Label>
               <Control>
                 <Input type="text" placeholder="e.g. http://www.website.com/image.png" name="imageUrl" value={imageUrl.value} onChange={this.handleInputChange} />
-                <div className="validation-message">{imageUrl.touched && !imageUrl.valid ? <span>This field is required and must start with a valid protocol</span> : ''}</div>
+                <div className={"validation-message" + (imageUrl.touched && !imageUrl.valid ? ' validation-message-display' : '')}><span>This field is required and must start with a valid protocol.</span></div>
               </Control>
             </Field>
 

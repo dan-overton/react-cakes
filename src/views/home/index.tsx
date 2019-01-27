@@ -1,4 +1,4 @@
-import { Button } from 'bloomer';
+import { Button, Columns, Column } from 'bloomer';
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
@@ -23,14 +23,16 @@ class Home extends Component<HomeProps> {
   render() {
     const { cakes, loading, error } = this.props;
     return (
-      <div>
-        <Link to="/create">
-          <Button isColor="primary">
-            Add Cake
-          </Button>
-        </Link>
-        <div>{loading ? <h2>Loading...</h2> : (error ? <h2>Could not load cakes. Sad, sad times. :(</h2> : <CakeList cakes={cakes!}></CakeList>)}</div>
-      </div>
+      <Columns>
+        <Column>
+          <Link to="/create" className="add-cake">
+            <Button isColor="primary">
+              Add Cake
+            </Button>
+          </Link>
+          <div>{loading ? <h2>Loading...</h2> : (error ? <h2>Could not load cakes. Sad, sad times. :(</h2> : <CakeList cakes={cakes!}></CakeList>)}</div>
+        </Column>
+      </Columns>
     );
   }
 }

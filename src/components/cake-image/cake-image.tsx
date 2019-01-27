@@ -1,7 +1,9 @@
 import React, { Component } from 'react';
+import './cake-image.scss';
 
 export interface CakeImageProps {
     src: string;
+    cover?: boolean;
 }
 
 export interface CakeImageState {
@@ -18,8 +20,8 @@ class CakeImage extends Component<CakeImageProps, CakeImageState> {
 
     render() {
         const { errored } = this.state;
-        const { src } = this.props;
-        return (<img src={errored ? '/not-found.png' : src} onError={!errored ? this.onError : undefined} />)
+        const { src, cover } = this.props;
+        return (<img className={(cover ? 'cover' : '') + ' ' + (errored ? 'errored-img' : '')} src={errored ? '/not-found2.png' : src} onError={!errored ? this.onError : undefined} />)
     }
 }
 

@@ -25,6 +25,7 @@ export function addCakeReducer(state: AddCakeState = initialAddCakeState, action
                 ...state,
                 succeeded: true,
                 loading: false,
+                error: undefined
             }
         case AddCakeActionTypes.ADD_CAKE_ERROR:
             return {

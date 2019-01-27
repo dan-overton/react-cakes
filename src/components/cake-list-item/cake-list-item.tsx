@@ -9,7 +9,7 @@ const CakeListItem: React.FunctionComponent<{ cake: Cake }> = (props) => {
     return (
     <Link to={'cake/' + cake.id}>
         <div className="cake-list-item">
-            <CakeImage src={cake.imageUrl}></CakeImage>
+            <CakeImage src={cake.imageUrl} cover={true}></CakeImage>
             <div className="cake-name-panel">
                 <span>{cake.name}</span>
             </div>

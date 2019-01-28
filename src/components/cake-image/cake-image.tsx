@@ -21,7 +21,7 @@ class CakeImage extends Component<CakeImageProps, CakeImageState> {
     render() {
         const { errored } = this.state;
         const { src, cover } = this.props;
-        return (<img className={(cover ? 'cover' : '') + ' ' + (errored ? 'errored-img' : '')} src={errored ? '/not-found2.png' : src} onError={!errored ? this.onError : undefined} />)
+        return (<img className={(cover ? 'cover' : '') + ' ' + (errored ? 'errored-img' : '')} src={errored ? '/not-found.png' : src} onError={!errored ? this.onError : undefined} />)
     }
 }
 

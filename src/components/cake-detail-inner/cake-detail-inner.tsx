@@ -30,10 +30,10 @@ const CakeDetailInner: FunctionComponent<CakeDetailInnerProps> = (props) => {
             <Tile isParent>
                 <Tile isChild render={
                     () => (
-                        <div>
-                            <p>Name: {cake.name}</p>
-                            <p>Comment: {cake.comment}</p>
-                            <p>Yum Factor: {cake.yumFactor}</p>
+                        <div className="cake-detail-info"> 
+                            <p className="cake-name">Name: {cake.name}</p>
+                            <p className="cake-comment">Comment: {cake.comment}</p>
+                            <p className="cake-yumfactor">Yum Factor: {cake.yumFactor}</p>
                         </div>
                     )
                 } />

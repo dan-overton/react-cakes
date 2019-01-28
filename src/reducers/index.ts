@@ -14,13 +14,5 @@ export const initialAppState: CakesAppState = {
     cake: initialCakeState,
     add: initialAddCakeState
 }
-/*
-export function appReducer(state: CakesAppState = initialAppState, action: Action) {
-    return {
-        cake:  cakeReducer(state.cake, action),
-        cakes: cakesReducer(state.cakes, action),
-        create: addCakeReducer(state.add, action)
-    }
-}*/
 
 export const appReducer = combineReducers({cake: cakeReducer, cakes: cakesReducer, add: addCakeReducer})

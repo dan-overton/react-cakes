@@ -1,6 +1,5 @@
 import { Action, Dispatch } from "redux";
 import { Cake } from "../models";
-import CakeService from "../services/cake-service";
 import { cakeService } from "../services";
 
 export enum AddCakeActionTypes {

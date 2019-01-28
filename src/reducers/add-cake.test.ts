@@ -1,5 +1,5 @@
 import { addCakeReducer } from "./add-cake";
-import { AddCakeActionTypes, ActionAddCake, ActionAddCakeSuccess, ActionAddCakeError, actionAddCakeReset } from "../actions/add-cake";
+import { AddCakeActionTypes, ActionAddCake, ActionAddCakeSuccess, ActionAddCakeError } from "../actions/add-cake";
 import { Cake } from "../models";
 
 describe('addCakeReducer', () => {

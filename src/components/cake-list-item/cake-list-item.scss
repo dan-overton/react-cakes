@@ -14,7 +14,6 @@ a {
 }
 
 .cake-name-panel {
-    opacity: 0;
     background-color: rgba(0,0,0,0.5);
     position: relative;
     top: -66px;
@@ -23,8 +22,4 @@ a {
     overflow: hidden;
     transition: opacity 0.5s;
     padding: 4px;
-}
-
-.cake-list-item:hover .cake-name-panel {
-    opacity: 1;
 }

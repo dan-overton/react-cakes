@@ -40,7 +40,8 @@ class Create extends Component<CreateProps, CreateState> {
   validators: any = {
     name: Validators.required,
     comment: Validators.required,
-    imageUrl: Validators.startsWithProtocol
+    imageUrl: Validators.startsWithProtocol,
+    yumFactor: Validators.between(1, 5)
   }
 
   constructor(props: CreateProps) {
@@ -144,6 +145,7 @@ class Create extends Component<CreateProps, CreateState> {
               <Label>Yum Factor</Label>
               <Control>
                 <Input type="number" min="1" max="5" name="yumFactor" value={yumFactor.value} onChange={this.handleInputChange} />
+                <div className={"validation-message" + (yumFactor.touched && !yumFactor.valid ? ' validation-message-display' : '')}><span>Please enter a number between 1 and 5.</span></div>
               </Control>
             </Field>
 

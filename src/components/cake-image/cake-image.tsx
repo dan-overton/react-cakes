@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import './cake-image.scss';
 
 export interface CakeImageProps {
@@ -6,23 +6,15 @@ export interface CakeImageProps {
     cover?: boolean;
 }
 
-export interface CakeImageState {
-    errored: boolean;
-}
+const CakeImage: React.FunctionComponent<CakeImageProps> = (props: CakeImageProps) => {
+    const [errored, setErrored] = useState(false);
 
-class CakeImage extends Component<CakeImageProps, CakeImageState> {
-    constructor(props: CakeImageProps) {
-        super(props);
-        this.state = { errored: false };
+    function onError() {
+        setErrored(true);
     }
 
-    onError = () => this.setState({ errored: true });
-
-    render() {
-        const { errored } = this.state;
-        const { src, cover } = this.props;
-        return (<img className={(cover ? 'cover' : '') + ' ' + (errored ? 'errored-img' : '')} src={errored ? '/not-found.png' : src} onError={!errored ? this.onError : undefined} />)
-    }
+    const { src, cover } = props;
+    return (<img className={(cover ? 'cover' : '') + ' ' + (errored ? 'errored-img' : '')} src={errored ? '/not-found.png' : src} onError={!errored ? onError : undefined} />)
 }
 
 export default CakeImage;

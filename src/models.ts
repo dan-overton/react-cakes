@@ -5,3 +5,9 @@ export interface Cake {
     imageUrl: string;
     yumFactor: number;
 }
+
+export interface FormValue<T> {
+    value: T;
+    valid: boolean;
+    touched: boolean;
+}

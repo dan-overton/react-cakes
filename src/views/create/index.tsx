@@ -1,10 +1,12 @@
-import { Breadcrumb, BreadcrumbItem, Button, Column, Control, Field, Input, Label } from 'bloomer';
+import { Breadcrumb, BreadcrumbItem, Button, Column, Control, Field } from 'bloomer';
 import { Columns } from 'bloomer/lib/grid/Columns';
-import React, { Component } from 'react';
+import React, { Component, useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { actionAddCake, actionAddCakeReset } from '../../actions/add-cake';
-import { Cake } from '../../models';
+import NumberFormControl from '../../components/form-control/number-form-control';
+import TextFormControl from '../../components/form-control/text-form-control';
+import { Cake, FormValue } from '../../models';
 import { CakesAppState } from '../../reducers';
 import * as Validators from '../../validators/validators';
 import './create.scss';
@@ -18,12 +20,6 @@ interface CreateProps {
   reset: () => () => void
 }
 
-interface FormValue<T> {
-  value: T;
-  valid: boolean;
-  touched: boolean;
-}
-
 interface FormValues {
   [name: string]: FormValue<string | number>,
   name: FormValue<string>;
@@ -32,38 +28,32 @@ interface FormValues {
   yumFactor: FormValue<number>;
 }
 
-interface CreateState {
-  controls: FormValues;
-}
-
-class Create extends Component<CreateProps, CreateState> {
-  validators: any = {
+const Create2: React.FunctionComponent<CreateProps> = (props: CreateProps) => {
+  const validators: any = {
     name: Validators.required,
     comment: Validators.required,
     imageUrl: Validators.startsWithProtocol,
     yumFactor: Validators.between(1, 5)
   }
 
-  constructor(props: CreateProps) {
-    super(props);
+  const [controls, setControls]: any = useState({
+    name: { value: '', valid: false, touched: false },
+    comment: { value: '', valid: false, touched: false },
+    imageUrl: { value: '', valid: false, touched: false },
+    yumFactor: { value: 5, valid: true, touched: false },
+  });
 
-    this.state = {
-      controls: {
-        name: { value: '', valid: false, touched: false },
-        comment: { value: '', valid: false, touched: false },
-        imageUrl: { value: '', valid: false, touched: false },
-        yumFactor: { value: 5, valid: true, touched: false },
-      }
-    };
-  }
+  useEffect(() => {
+    props.reset();
+  }, []);
 
-  componentDidMount() {
-    this.props.reset();
-  }
+  useEffect(() => {
+    if (props.succeeded) {
+      props.history.push('/');
+    }
+  }, [props.succeeded])
 
-  createCake = async () => {
-    const controls = this.state.controls;
-
+  const createCake = async () => {
     const cake: Cake = {
       name: controls.name.value,
       comment: controls.comment.value,
@@ -71,99 +61,90 @@ class Create extends Component<CreateProps, CreateState> {
       yumFactor: controls.yumFactor.value
     };
 
-    this.props.addCake(cake);
+    props.addCake(cake);
   }
 
-  componentWillReceiveProps(props: CreateProps) {
-    if (props.succeeded) {
-      this.props.history.push('/');
-    }
-  }
-
-  handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = event.target;
 
     let valid = true;
 
-    if (this.validators[name]) {
-      valid = this.validators[name](value);
+    if (validators[name]) {
+      valid = validators[name](value);
     }
 
-    this.setState({
-      controls: { ...this.state.controls, [name]: { value, valid, touched: true } },
-    } as any);
+    setControls({...controls, [name]: { value, valid, touched: true }});
   }
 
-  formInvalid = () => Object.keys(this.state.controls).some((key) => !this.state.controls[key].valid);
+  const formInvalid = () => Object.keys(controls).some((key) => !controls[key].valid);
 
-  render() {
-    const { loading, error } = this.props;
-    const { name, comment, imageUrl, yumFactor } = this.state.controls;
+  const { loading, error } = props;
+  const { name, comment, imageUrl, yumFactor } = controls;
 
-    return (
-      <Columns className="create-form">
-        <Column isSize={{ mobile: 12, tablet: 6}}>
-          <Breadcrumb>
-            <ul>
-              <BreadcrumbItem><Link to="/">Cakes</Link></BreadcrumbItem>
-              <BreadcrumbItem>&nbsp;Create Cake</BreadcrumbItem>
-            </ul>
-          </Breadcrumb>
-          {error ? (<div className="notification is-danger">
-            <button className="delete" onClick={() => this.props.reset()}></button>
-            Could not create Cake! If this continues please contact support.
-          </div>) : ''
-          }
+  return (
+    <Columns className="create-form">
+      <Column isSize={{ mobile: 12, tablet: 6}}>
+        <Breadcrumb>
+          <ul>
+            <BreadcrumbItem><Link to="/">Cakes</Link></BreadcrumbItem>
+            <BreadcrumbItem>&nbsp;Create Cake</BreadcrumbItem>
+          </ul>
+        </Breadcrumb>
+        {error ? (<div className="notification is-danger">
+          <button className="delete" onClick={() => props.reset()}></button>
+          Could not create Cake! If this continues please contact support.
+        </div>) : ''
+        }
 
-          <form noValidate>
-            <Field>
-              <Label>Name</Label>
-              <Control>
-                <Input type="text" placeholder='The name of your cake' name="name" value={name.value} onChange={this.handleInputChange} />
-                <div className={"validation-message" + (name.touched && !name.valid ? ' validation-message-display' : '')}><span>This field is required.</span></div>
-              </Control>
-            </Field>
+        <form noValidate>
+          <TextFormControl 
+            label="Name" 
+            placeholder="The name of your cake"
+            validationMessage="This field is required."
+            name="name" 
+            value={name} 
+            onChange={handleInputChange}></TextFormControl>
 
-            <Field>
-              <Label>Comment</Label>
-              <Control>
-                <Input type="text" placeholder='What do you think of the cake?' name="comment" value={comment.value} onChange={this.handleInputChange} />
-                <div className={"validation-message" + (comment.touched && !comment.valid ? ' validation-message-display' : '')}><span>This field is required.</span></div>
-              </Control>
-            </Field>
+          <TextFormControl 
+            label="Comment" 
+            placeholder="What do you think of the cake?"
+            validationMessage="This field is required."
+            name="comment" 
+            value={comment} 
+            onChange={handleInputChange}></TextFormControl>
 
+          <TextFormControl 
+            label="Image Url" 
+            placeholder="e.g. http://www.website.com/image.png"
+            validationMessage="This field is required and must start with a valid protocol."
+            name="imageUrl" 
+            value={imageUrl} 
+            onChange={handleInputChange}></TextFormControl>
 
-            <Field>
-              <Label>Image Url</Label>
-              <Control>
-                <Input type="text" placeholder="e.g. http://www.website.com/image.png" name="imageUrl" value={imageUrl.value} onChange={this.handleInputChange} />
-                <div className={"validation-message" + (imageUrl.touched && !imageUrl.valid ? ' validation-message-display' : '')}><span>This field is required and must start with a valid protocol.</span></div>
-              </Control>
-            </Field>
+            <NumberFormControl
+              label="Yum Factor"
+              name="yumFactor"
+              min={1}
+              max={5}
+              value={yumFactor}
+              onChange={handleInputChange}
+              validationMessage="Please enter a number between 1 and 5."
+            ></NumberFormControl>
 
-            <Field>
-              <Label>Yum Factor</Label>
-              <Control>
-                <Input type="number" min="1" max="5" name="yumFactor" value={yumFactor.value} onChange={this.handleInputChange} />
-                <div className={"validation-message" + (yumFactor.touched && !yumFactor.valid ? ' validation-message-display' : '')}><span>Please enter a number between 1 and 5.</span></div>
-              </Control>
-            </Field>
-
-            <Field isGrouped>
-              <Control>
-                <Button isLoading={loading} isColor='primary' onClick={this.createCake} disabled={this.formInvalid()} >Submit</Button>
-              </Control>
-              <Control>
-                <Link to="/">
-                  <Button isLink>Cancel</Button>
-                </Link>
-              </Control>
-            </Field>
-          </form>
-        </Column>
-      </Columns>
-    );
-  }
+          <Field isGrouped>
+            <Control>
+              <Button isLoading={loading} isColor='primary' onClick={createCake} disabled={formInvalid()} >Submit</Button>
+            </Control>
+            <Control>
+              <Link to="/">
+                <Button isLink>Cancel</Button>
+              </Link>
+            </Control>
+          </Field>
+        </form>
+      </Column>
+    </Columns>
+  );
 }
 
 const mapStateToProps = (state: CakesAppState, compProps: CreateProps) => {
@@ -181,4 +162,4 @@ const mapDispatchToProps = (dispatch: any) => {
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(Create);
+export default connect(mapStateToProps, mapDispatchToProps)(Create2);
